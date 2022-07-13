@@ -1,10 +1,10 @@
-package com.bongani.ECommerceService;
+package com.bongani.ECommerce;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ECommerceServiceApplicationTests {
+class ECommerceApplicationTests {
 
 	@Test
 	void contextLoads() {

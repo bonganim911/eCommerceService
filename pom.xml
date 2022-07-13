@@ -92,7 +92,7 @@
 						<configuration>
 							<excludes>
 								<exclude>*Test</exclude>
-								<exclude>**/ECommerceServiceApplication*</exclude>
+								<exclude>**/ECommerceApplication*</exclude>
 							</excludes>
 						</configuration>
 					</execution>
@@ -116,7 +116,7 @@
 							</rules>
 							<excludes>
 								<exclude>*Test</exclude>
-								<exclude>**/ECommerceServiceApplication*</exclude>
+								<exclude>**/ECommerceApplication*</exclude>
 							</excludes>
 						</configuration>
 					</execution>
