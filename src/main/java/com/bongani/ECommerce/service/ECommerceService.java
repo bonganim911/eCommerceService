@@ -19,11 +19,7 @@ public class ECommerceService {
     private InventoryRepository inventoryRepository;
 
     public TotalCostResponse getPrice(List<String> inventoryLists) {
-        Map<String, Integer> inventoryMap = new HashMap<>();
-
-        for(String inventory: inventoryLists){
-            inventoryMap.put(inventory, inventoryMap.getOrDefault(inventory, 0) + 1);
-        }
+        Map<String, Integer> inventoryMap = mapInventoryListToUniqueMapWithCount(inventoryLists);
 
         BigDecimal totalCost = new BigDecimal(0);
 
@@ -40,5 +36,15 @@ public class ECommerceService {
         }
 
         return new TotalCostResponse(totalCost);
+    }
+
+    private Map<String, Integer> mapInventoryListToUniqueMapWithCount(List<String> inventoryLists){
+        Map<String, Integer> inventoryMap = new HashMap<>();
+
+        for(String inventory: inventoryLists){
+            inventoryMap.put(inventory, inventoryMap.getOrDefault(inventory, 0) + 1);
+        }
+
+        return inventoryMap;
     }
 }
