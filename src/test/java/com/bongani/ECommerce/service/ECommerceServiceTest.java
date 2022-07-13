@@ -98,4 +98,33 @@ public class ECommerceServiceTest {
 
     }
 
+    @Test
+    void shouldReturnPriceGivenInventoryIdWithDiscountWhenExtraQuantity() {
+        Inventory inventory = new Inventory();
+        List<String> inventoryLists = new ArrayList<>();
+        inventory.setPrice(BigDecimal.valueOf(100));
+        inventoryLists.add("001");
+        inventoryLists.add("001");
+        inventoryLists.add("001");
+        inventoryLists.add("001");
+
+        QuantityDiscount quantityDiscount = new QuantityDiscount();
+        quantityDiscount.setQuantity(3);
+        quantityDiscount.setPrice(BigDecimal.valueOf(200));
+
+        BigDecimal expectedTotalCosts = BigDecimal.valueOf(300);
+
+        Optional<Inventory> databaseResponse = Optional.of(inventory);
+        Optional<QuantityDiscount> quantityDiscountResponse = Optional.of(quantityDiscount);
+
+        when(inventoryRepository.findById(any())).thenReturn(databaseResponse);
+        when(quantityDiscountRepository.findByInventoryId(any())).thenReturn(quantityDiscountResponse);
+
+        TotalCostResponse price = eCommerceService.getPrice(inventoryLists);
+
+        assertEquals(expectedTotalCosts, price.getPrice());
+
+    }
+
+
 }
