@@ -93,6 +93,8 @@
 							<excludes>
 								<exclude>*Test</exclude>
 								<exclude>**/ECommerceApplication*</exclude>
+								<exclude>**/model/*</exclude>
+								<exclude>**/dtos/*</exclude>
 							</excludes>
 						</configuration>
 					</execution>
@@ -117,6 +119,8 @@
 							<excludes>
 								<exclude>*Test</exclude>
 								<exclude>**/ECommerceApplication*</exclude>
+								<exclude>**/model/*</exclude>
+								<exclude>**/dtos/*</exclude>
 							</excludes>
 						</configuration>
 					</execution>
