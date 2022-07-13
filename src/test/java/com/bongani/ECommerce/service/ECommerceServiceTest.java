@@ -2,7 +2,9 @@ package com.bongani.ECommerce.service;
 
 import com.bongani.ECommerce.dtos.TotalCostResponse;
 import com.bongani.ECommerce.model.Inventory;
+import com.bongani.ECommerce.model.QuantityDiscount;
 import com.bongani.ECommerce.repository.InventoryRepository;
+import com.bongani.ECommerce.repository.QuantityDiscountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,6 +27,9 @@ public class ECommerceServiceTest {
 
     @Mock
     private InventoryRepository inventoryRepository;
+
+    @Mock
+    private QuantityDiscountRepository quantityDiscountRepository;
 
     @BeforeEach
     public void setup(){
@@ -64,6 +69,33 @@ public class ECommerceServiceTest {
         TotalCostResponse price = eCommerceService.getPrice(inventoryLists);
 
         assertEquals(expectedTotalCosts, price.getPrice());
+    }
+
+    @Test
+    void shouldReturnPriceGivenInventoryIdWithDiscount() {
+        Inventory inventory = new Inventory();
+        List<String> inventoryLists = new ArrayList<>();
+        inventory.setPrice(BigDecimal.valueOf(100));
+        inventoryLists.add("001");
+        inventoryLists.add("001");
+        inventoryLists.add("001");
+
+        QuantityDiscount quantityDiscount = new QuantityDiscount();
+        quantityDiscount.setQuantity(3);
+        quantityDiscount.setPrice(BigDecimal.valueOf(200));
+
+        BigDecimal expectedTotalCosts = BigDecimal.valueOf(200);
+
+        Optional<Inventory> databaseResponse = Optional.of(inventory);
+        Optional<QuantityDiscount> quantityDiscountResponse = Optional.of(quantityDiscount);
+
+        when(inventoryRepository.findById(any())).thenReturn(databaseResponse);
+        when(quantityDiscountRepository.findByInventoryId(any())).thenReturn(quantityDiscountResponse);
+
+        TotalCostResponse price = eCommerceService.getPrice(inventoryLists);
+
+        assertEquals(expectedTotalCosts, price.getPrice());
+
     }
 
 }

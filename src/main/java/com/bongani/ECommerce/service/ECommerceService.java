@@ -3,6 +3,7 @@ package com.bongani.ECommerce.service;
 import com.bongani.ECommerce.dtos.TotalCostResponse;
 import com.bongani.ECommerce.model.Inventory;
 import com.bongani.ECommerce.repository.InventoryRepository;
+import com.bongani.ECommerce.repository.QuantityDiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class ECommerceService {
 
     @Autowired
     private InventoryRepository inventoryRepository;
+
+    @Autowired
+    private QuantityDiscountRepository quantityDiscountRepository;
 
     public TotalCostResponse getPrice(List<String> inventoryLists) {
         Map<String, Integer> inventoryMap = mapInventoryListToUniqueMapWithCount(inventoryLists);
