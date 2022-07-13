@@ -73,6 +73,7 @@ Build target folder that contains site folder with coverages report.
 
 
 ## TODO
-### Dockerized
+### Swagger
+### Docker
 ### SonarQube Analysis
 ### CI-CD - Build via Github Actions (as an option)
