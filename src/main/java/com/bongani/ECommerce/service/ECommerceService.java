@@ -2,6 +2,7 @@ package com.bongani.ECommerce.service;
 
 import com.bongani.ECommerce.dtos.TotalCostResponse;
 import com.bongani.ECommerce.model.Inventory;
+import com.bongani.ECommerce.model.QuantityDiscount;
 import com.bongani.ECommerce.repository.InventoryRepository;
 import com.bongani.ECommerce.repository.QuantityDiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,44 @@ public class ECommerceService {
 
     public TotalCostResponse getPrice(List<String> inventoryLists) {
         Map<String, Integer> inventoryMap = mapInventoryListToUniqueMapWithCount(inventoryLists);
-
         BigDecimal totalCost = new BigDecimal(0);
 
         for(String inventory: inventoryMap.keySet()){
             Optional<Inventory> inventoryObject = inventoryRepository.findById(Long.valueOf(inventory));
+            Optional<QuantityDiscount> quantity = quantityDiscountRepository.findByInventoryId(Integer.parseInt(inventory));
 
-            if (inventoryObject.isPresent()) {
+            Integer inventoryQuantity = inventoryMap.get(inventory);
 
-                totalCost = totalCost.add(inventoryObject.get().getPrice());
-            }else {
-                totalCost = totalCost.add(BigDecimal.valueOf(0));
-            }
+            BigDecimal inventoryCosts = getInventoryCostFromMap(inventoryObject, quantity, inventoryQuantity);
 
+            totalCost = totalCost.add(inventoryCosts);
         }
 
         return new TotalCostResponse(totalCost);
+    }
+
+    private BigDecimal getInventoryCostFromMap(Optional<Inventory> inventoryObject, Optional<QuantityDiscount> quantity, Integer inventoryQuantity) {
+        BigDecimal inventoryCosts = BigDecimal.ZERO;
+
+        if(inventoryObject.isPresent()){
+            BigDecimal priceForInventory = inventoryObject.get().getPrice();
+
+            BigDecimal costOfInventory;
+            if(quantity.isPresent()){
+                int numberOfQuantitiesToDiscountFor = quantity.get().getQuantity();
+
+                int multiplier = inventoryQuantity / numberOfQuantitiesToDiscountFor;
+
+                int remainder = inventoryQuantity % numberOfQuantitiesToDiscountFor;
+
+                costOfInventory =  quantity.get().getPrice().multiply(BigDecimal.valueOf(multiplier)).add(priceForInventory.multiply(BigDecimal.valueOf(remainder)));
+            }
+            else{
+                costOfInventory = priceForInventory.multiply(BigDecimal.valueOf(inventoryQuantity));
+            }
+            inventoryCosts = inventoryCosts.add(costOfInventory);
+        }
+        return inventoryCosts;
     }
 
     private Map<String, Integer> mapInventoryListToUniqueMapWithCount(List<String> inventoryLists){
