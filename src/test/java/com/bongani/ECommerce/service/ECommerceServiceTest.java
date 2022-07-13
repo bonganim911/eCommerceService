@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class ECommerceServiceTest {
 
     @InjectMocks
-    private ECommerceService eCommerceService;
+    private ECommerceServiceImpl eCommerceService;
 
     @Mock
     private InventoryRepository inventoryRepository;
