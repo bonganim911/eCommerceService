@@ -50,4 +50,20 @@ public class ECommerceServiceTest {
 
     }
 
+    @Test
+    void shouldReturnZeroPriceWhenTheInventoryDoesNotExist(){
+        List<String> inventoryLists = new ArrayList<>();
+        inventoryLists.add("001");
+
+        BigDecimal expectedTotalCosts = BigDecimal.valueOf(0);
+
+        Optional<Inventory> databaseResponse = Optional.empty();
+
+        when(inventoryRepository.findById(any())).thenReturn(databaseResponse);
+
+        TotalCostResponse price = eCommerceService.getPrice(inventoryLists);
+
+        assertEquals(expectedTotalCosts, price.getPrice());
+    }
+
 }
