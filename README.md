@@ -69,6 +69,7 @@ Invoke [http://localhost:8080](http://localhost:8080) using [Postman](https://ww
 ## Code Coverage
 ### `./mvnw clean verify`
 Build target folder that contains site folder with coverages report.
+![](./Screenshot 2022-07-13 at 22.25.47.png "Screenshot of Code Coverage")
 
 
 ## TODO
