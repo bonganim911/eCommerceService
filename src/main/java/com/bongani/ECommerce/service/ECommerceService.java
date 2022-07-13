@@ -9,6 +9,6 @@ import java.util.List;
 @Service
 public class ECommerceService {
     public TotalCostResponse getPrice(List<String> inventoryLists) {
-        return null;
+        return new TotalCostResponse(BigDecimal.valueOf(100));
     }
 }
